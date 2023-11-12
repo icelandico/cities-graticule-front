@@ -3,12 +3,13 @@
   export let value: T;
   export let isChecked: boolean;
   export let label: string;
+  export let disabled = false;
   export let handleChange: (val: T) => void;
 </script>
 
 <label class="option-container">
   {label}
-  <input type="checkbox" bind:checked={isChecked} on:change={() => handleChange(value)}>
+  <input disabled={disabled} type="checkbox" bind:checked={isChecked} on:change={() => handleChange(value)}>
   <span class="checkmark"></span>
 </label>
 

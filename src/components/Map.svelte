@@ -2,7 +2,7 @@
   import * as L from 'leaflet';
   import { Geocoder, geocoders } from 'leaflet-control-geocoder';
   import { onMount } from 'svelte';
-  export let handleSetPoint: (point: any) => void;
+  export let handleSetPoint: (point: L.LatLng) => void;
 
   onMount(() => {
     const leafletMap = L.map('map').setView([54.364917, 18.422872], 3);
