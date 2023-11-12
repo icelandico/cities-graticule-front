@@ -37,12 +37,8 @@
 <div class="container">
   <h1>Cities on Graticule</h1>
   <Map bind:drawMeridian={drawMeridianChild} bind:drawParallel={drawParallelChild} bind:removeParallel={removeParallelChild} bind:removeMeridian={removeMeridianChild} handleSetPoint={handleSetPoint} />
-  <div class="options-container">
-    <Checkbox disabled={!chosenPoint} label="Parallel" value={"parallel"} isChecked={optionsChecked.parallel} handleChange={handleChangeOption} />
-    <Checkbox disabled={!chosenPoint} label="Meridian" value={"meridian"} isChecked={optionsChecked.meridian} handleChange={handleChangeOption} />
-  </div>
   {#if (!chosenPoint)}
-    <h2 class="text-error">Select point first</h2>
+    <h2 class="text-error">Find a point</h2>
   {/if}
 </div>
 

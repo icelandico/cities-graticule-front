@@ -12,7 +12,6 @@
       map = L.map('map').setView([54.364917, 18.422872], 2);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 0,
-        noWrap: true,
         maxZoom: 15,
         maxNativeZoom: 15,
         attribution: '© OpenStreetMap contributors',
