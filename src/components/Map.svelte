@@ -20,6 +20,7 @@
     }).on('markgeocode', function (e) {
       const { name, center } = e.geocode;
       handleSetPoint(center);
+      leafletMap.setZoom(11);
     }).addTo(leafletMap);
   });
 </script>

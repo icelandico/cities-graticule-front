@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { LatLng } from "leaflet";
+  import type { Option } from './types'
   import Checkbox from "./components/Checkbox.svelte";
   import Map from "./components/Map.svelte";
-  export type Option = 'meridian' | 'parallel';
 
   let chosenPoint: LatLng | null = null;
   let optionsChecked = {
@@ -16,7 +16,8 @@
   }
 
   function handleSetPoint(point: LatLng) {
-    chosenPoint = point;
+    chosenPoint = Object.assign({}, point);
+    chosenPoint = chosenPoint;
   }
 </script>
 
@@ -24,8 +25,8 @@
   <h1>Cities on Graticule</h1>
   <Map handleSetPoint={handleSetPoint} />
   <div class="options-container">
-    <Checkbox disabled={!chosenPoint} label="Parallel" value={"parallel"} bind:isChecked={optionsChecked.parallel} handleChange={handleChangeOption} />
-    <Checkbox disabled={!chosenPoint} label="Meridian" value={"meridian"} bind:isChecked={optionsChecked.meridian} handleChange={handleChangeOption} />
+    <Checkbox disabled={!chosenPoint} label="Parallel" value={"parallel"} isChecked={optionsChecked.parallel} handleChange={handleChangeOption} />
+    <Checkbox disabled={!chosenPoint} label="Meridian" value={"meridian"} isChecked={optionsChecked.meridian} handleChange={handleChangeOption} />
   </div>
   {#if (!chosenPoint)}
     <h2 class="text-error">Select point first</h2>
