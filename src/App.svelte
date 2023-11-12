@@ -1,47 +1,54 @@
-<script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+<script>
+  import * as L from 'leaflet';
+  import {Geocoder, geocoders} from 'leaflet-control-geocoder';
+  import { onMount } from 'svelte';
+
+  let leafletMap;
+
+  onMount(() => {
+    leafletMap = L.map('map').setView([54.364917, 18.422872], 3);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      minZoom: 0,
+      maxZoom: 20,
+      maxNativeZoom: 19,
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(leafletMap);
+
+    new Geocoder({
+    geocoder: new geocoders.Nominatim(),
+    position: 'topright',
+  }).addTo(leafletMap);
+  });
+
+  function handleSearchCity(e) {
+    e.preventDefault();
+    console.log('Submit')
+  }
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
+<div class="container">
+  <h1>Cities on Graticule</h1>
+  <div class="map-container">
+    <div id="map"></div>
   </div>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+</div>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+  .container {
+    align-items: center;
+    max-width: 100%;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+  .map-container {
+    border-radius: 8px;
+    height: 500px;
+    margin-bottom: 2rem;
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
+
+  #map {
+    height: 500px;
+    border-radius: 8px;
+    margin-bottom: 2rem;
   }
 </style>
