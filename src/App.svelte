@@ -1,13 +1,12 @@
 <script lang="ts">
   import type { LatLng } from "leaflet";
   import type { Option } from './types'
-  import Checkbox from "./components/Checkbox.svelte";
   import Map from "./components/Map.svelte";
 
   let drawParallelChild: (val: number) => void;
   let drawMeridianChild: (val: number) => void;
-  let removeMeridianChild: () => L.Map;
-  let removeParallelChild: () => L.Map;
+  let removeMeridianChild: () => L.Polyline;
+  let removeParallelChild: () => L.Polyline;
 
   let chosenPoint: LatLng | null = null;
   let optionsChecked = {
@@ -36,20 +35,20 @@
 
 <div class="container">
   <h1>Cities on Graticule</h1>
-  <Map bind:drawMeridian={drawMeridianChild} bind:drawParallel={drawParallelChild} bind:removeParallel={removeParallelChild} bind:removeMeridian={removeMeridianChild} handleSetPoint={handleSetPoint} />
-  {#if (!chosenPoint)}
-    <h2 class="text-error">Find a point</h2>
-  {/if}
+  <h2 class="text-error">Use searchbar to find a point</h2>
+  <Map
+    bind:drawMeridian={drawMeridianChild}
+    bind:drawParallel={drawParallelChild}
+    bind:removeParallel={removeParallelChild}
+    bind:removeMeridian={removeMeridianChild}
+    handleSetPoint={handleSetPoint}
+  />
 </div>
 
 <style>
   .container {
     align-items: center;
     max-width: 100%;
-  }
-
-  .options-container {
-    width: 15%;
   }
 
   .text-error {
