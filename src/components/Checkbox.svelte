@@ -1,9 +1,9 @@
-<script lang="ts">
+<script lang="ts" generics="T">
   import Option from './../App.svelte';
-  export let value: string;
+  export let value: T;
   export let isChecked: boolean;
   export let label: string;
-  export let handleChange: (val: Option) => void;
+  export let handleChange: (val: T) => void;
 </script>
 
 <label class="option-container">

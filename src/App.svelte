@@ -1,38 +1,31 @@
-<script>
-  import * as L from 'leaflet';
-  import {Geocoder, geocoders} from 'leaflet-control-geocoder';
-  import { onMount } from 'svelte';
+<script lang="ts" context="module">
+  import Checkbox from "./components/Checkbox.svelte";
+  import Map from "./components/Map.svelte";
+  export type Option = 'meridian' | 'parallel';
 
-  let leafletMap;
+  let chosenCity = {};
+  let optionsChecked = {
+    meridian: false,
+    parallel: false,
+  }
 
-  onMount(() => {
-    leafletMap = L.map('map').setView([54.364917, 18.422872], 3);
+  function handleChangeOption(val: Option) {
+    const currentValue = optionsChecked[val];
+    optionsChecked[val] = !currentValue;
+  }
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      minZoom: 0,
-      maxZoom: 20,
-      maxNativeZoom: 19,
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(leafletMap);
-
-    new Geocoder({
-    geocoder: new geocoders.Nominatim(),
-    position: 'topright',
-  }).addTo(leafletMap);
-  });
-
-  function handleSearchCity(e) {
-    e.preventDefault();
-    console.log('Submit')
+  function handleSetPoint(point: any) {
+    chosenCity = point;
   }
 </script>
 
 <div class="container">
   <h1>Cities on Graticule</h1>
-  <div class="map-container">
-    <div id="map"></div>
+  <Map handleSetPoint={handleSetPoint} />
+  <div class="options-container">
+    <Checkbox label="Parallel" value={"parallel"} bind:isChecked={optionsChecked.parallel} handleChange={handleChangeOption} />
+    <Checkbox label="Meridian" value={"meridian"} bind:isChecked={optionsChecked.meridian} handleChange={handleChangeOption} />
   </div>
-
 </div>
 
 <style>
@@ -40,15 +33,8 @@
     align-items: center;
     max-width: 100%;
   }
-  .map-container {
-    border-radius: 8px;
-    height: 500px;
-    margin-bottom: 2rem;
-  }
 
-  #map {
-    height: 500px;
-    border-radius: 8px;
-    margin-bottom: 2rem;
+  .options-container {
+    width: 15%;
   }
 </style>
