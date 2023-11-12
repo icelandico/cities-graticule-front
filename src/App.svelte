@@ -4,6 +4,11 @@
   import Checkbox from "./components/Checkbox.svelte";
   import Map from "./components/Map.svelte";
 
+  let drawParallelChild: (val: number) => void;
+  let drawMeridianChild: (val: number) => void;
+  let removeMeridianChild: () => L.Map;
+  let removeParallelChild: () => L.Map;
+
   let chosenPoint: LatLng | null = null;
   let optionsChecked = {
     meridian: false,
@@ -13,17 +18,25 @@
   function handleChangeOption(val: Option) {
     const currentValue = optionsChecked[val];
     optionsChecked[val] = !currentValue;
-  }
+    if (val === 'meridian') {
+      currentValue && removeMeridianChild();
+      !currentValue && drawMeridianChild(chosenPoint?.lng)
+    }
 
+    if (val === 'parallel') {
+      currentValue && removeParallelChild();
+      !currentValue && drawParallelChild(chosenPoint?.lat)
+    }
+  }
+  console.log('Option', optionsChecked)
   function handleSetPoint(point: LatLng) {
-    chosenPoint = Object.assign({}, point);
-    chosenPoint = chosenPoint;
+    chosenPoint = point;
   }
 </script>
 
 <div class="container">
   <h1>Cities on Graticule</h1>
-  <Map handleSetPoint={handleSetPoint} />
+  <Map bind:drawMeridian={drawMeridianChild} bind:drawParallel={drawParallelChild} bind:removeParallel={removeParallelChild} bind:removeMeridian={removeMeridianChild} handleSetPoint={handleSetPoint} />
   <div class="options-container">
     <Checkbox disabled={!chosenPoint} label="Parallel" value={"parallel"} isChecked={optionsChecked.parallel} handleChange={handleChangeOption} />
     <Checkbox disabled={!chosenPoint} label="Meridian" value={"meridian"} isChecked={optionsChecked.meridian} handleChange={handleChangeOption} />

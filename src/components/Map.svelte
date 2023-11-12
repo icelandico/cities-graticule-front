@@ -4,25 +4,47 @@
   import { onMount } from 'svelte';
   export let handleSetPoint: (point: L.LatLng) => void;
 
+  let map: L.Map;
+  let parallelLine: L.Polyline;
+  let meridianLine: L.Polyline;
+
   onMount(() => {
-    const leafletMap = L.map('map').setView([54.364917, 18.422872], 3);
+      map = L.map('map').setView([54.364917, 18.422872], 3);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        minZoom: 0,
+        maxZoom: 20,
+        maxNativeZoom: 19,
+        attribution: '© OpenStreetMap contributors',
+      }).addTo(map);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      minZoom: 0,
-      maxZoom: 20,
-      maxNativeZoom: 19,
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(leafletMap);
-
-    new Geocoder({
-      geocoder: new geocoders.Nominatim(),
-      position: 'topright',
-    }).on('markgeocode', function (e) {
-      const { name, center } = e.geocode;
-      handleSetPoint(center);
-      leafletMap.setZoom(11);
-    }).addTo(leafletMap);
+      new Geocoder({
+        geocoder: new geocoders.Nominatim(),
+        position: 'topright',
+        collapsed: false
+      }).on('markgeocode', function (e) {
+        const { name, center, bbox } = e.geocode;
+        handleSetPoint(center);
+      }).addTo(map);
   });
+
+  export const drawParallel = (latitude: number) => {
+    parallelLine = L.polyline([
+        [latitude, -180],
+        [latitude, 180]
+      ], { color: 'purple' }).addTo(map)
+    }
+
+  export const drawMeridian = (longitude: number) => {
+    meridianLine = L.polyline([
+        [90, longitude],
+        [0, longitude],
+        [-90, longitude]
+      ], { color: 'navy' }).addTo(map)
+  }
+
+  export const removeParallel = () => parallelLine.remove();
+  export const removeMeridian = () => meridianLine.remove();
+   
 </script>
 
 <div class="map-container">
