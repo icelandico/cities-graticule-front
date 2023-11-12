@@ -28,7 +28,7 @@
       !currentValue && drawParallelChild(chosenPoint?.lat)
     }
   }
-  console.log('Option', optionsChecked)
+
   function handleSetPoint(point: LatLng) {
     chosenPoint = point;
   }

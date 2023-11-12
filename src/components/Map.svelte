@@ -9,11 +9,12 @@
   let meridianLine: L.Polyline;
 
   onMount(() => {
-      map = L.map('map').setView([54.364917, 18.422872], 3);
+      map = L.map('map').setView([54.364917, 18.422872], 2);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         minZoom: 0,
-        maxZoom: 20,
-        maxNativeZoom: 19,
+        noWrap: true,
+        maxZoom: 15,
+        maxNativeZoom: 15,
         attribution: '© OpenStreetMap contributors',
       }).addTo(map);
 
@@ -24,6 +25,9 @@
       }).on('markgeocode', function (e) {
         const { name, center, bbox } = e.geocode;
         handleSetPoint(center);
+        drawParallel(center.lat);
+        drawMeridian(center.lng);
+        map.setZoom(2)
       }).addTo(map);
   });
 
@@ -31,7 +35,7 @@
     parallelLine = L.polyline([
         [latitude, -180],
         [latitude, 180]
-      ], { color: 'purple' }).addTo(map)
+      ], { color: '#24b529' }).addTo(map)
     }
 
   export const drawMeridian = (longitude: number) => {
@@ -39,7 +43,7 @@
         [90, longitude],
         [0, longitude],
         [-90, longitude]
-      ], { color: 'navy' }).addTo(map)
+      ], { color: '#54544d' }).addTo(map)
   }
 
   export const removeParallel = () => parallelLine.remove();
