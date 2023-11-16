@@ -10,12 +10,6 @@
   let map: L.Map;
   let parallelLine: L.Polyline;
   let meridianLine: L.Polyline;
-  let DefaultIcon = L.icon({
-      iconUrl: markerIconPng,
-      shadowUrl: iconShadow
-  });
-
-  L.Marker.prototype.options.icon = DefaultIcon;
 
   onMount(() => {
       map = L.map('map').setView([54.364917, 18.422872], 2);
@@ -32,6 +26,11 @@
         collapsed: false
       }).on('markgeocode', function (e) {
         const { name, center, bbox } = e.geocode;
+        L.Marker.prototype.options.icon = L.icon({
+          iconUrl: markerIconPng,
+          shadowUrl: iconShadow,
+          iconAnchor: [12, 28],
+        });
         handleSetPoint({
           name,
           coordinates: center
