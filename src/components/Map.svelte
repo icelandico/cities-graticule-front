@@ -2,7 +2,8 @@
   import * as L from 'leaflet';
   import { Geocoder, geocoders } from 'leaflet-control-geocoder';
   import { onMount } from 'svelte';
-  export let handleSetPoint: (point: L.LatLng) => void;
+  import type { UserPoint } from '../types';
+  export let handleSetPoint: (point: UserPoint) => void;
 
   let map: L.Map;
   let parallelLine: L.Polyline;
@@ -22,8 +23,13 @@
         position: 'topright',
         collapsed: false
       }).on('markgeocode', function (e) {
+        // removeMeridian();
+        // removeParallel();
         const { name, center, bbox } = e.geocode;
-        handleSetPoint(center);
+        handleSetPoint({
+          name,
+          coordinates: center
+        });
         drawParallel(center.lat);
         drawMeridian(center.lng);
         map.setZoom(2)

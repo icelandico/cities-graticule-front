@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { LatLng } from "leaflet";
-  import type { Option } from './types'
+  import type { Option, UserPoint } from './types'
   import Map from "./components/Map.svelte";
 
   let drawParallelChild: (val: number) => void;
@@ -8,7 +8,7 @@
   let removeMeridianChild: () => L.Polyline;
   let removeParallelChild: () => L.Polyline;
 
-  let chosenPoint: LatLng | null = null;
+  let chosenPoint: UserPoint | null = null;
   let optionsChecked = {
     meridian: false,
     parallel: false,
@@ -28,14 +28,24 @@
     }
   }
 
-  function handleSetPoint(point: LatLng) {
+  function handleSetPoint(point: UserPoint) {
+    if (chosenPoint) {
+      removeMeridianChild();
+      removeParallelChild();
+    }
     chosenPoint = point;
   }
 </script>
 
 <div class="container">
   <h1>Cities on Graticule</h1>
-  <h2 class="text-error">Use searchbar to find a point</h2>
+  {#if chosenPoint}
+    <div class="place__data">
+      <h2>Place: {chosenPoint.name}</h2>
+      <h2>Coordinates: Lat: {chosenPoint?.coordinates.lat.toFixed(3)}, Lng: {chosenPoint?.coordinates.lng.toFixed(3)}</h2>
+    </div>
+  {/if}
+  
   <Map
     bind:drawMeridian={drawMeridianChild}
     bind:drawParallel={drawParallelChild}
@@ -51,7 +61,7 @@
     max-width: 100%;
   }
 
-  .text-error {
-    color: rgb(204, 40, 19);
+  .place__data {
+    text-align: left;
   }
 </style>
