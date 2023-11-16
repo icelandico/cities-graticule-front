@@ -23,8 +23,6 @@
         position: 'topright',
         collapsed: false
       }).on('markgeocode', function (e) {
-        // removeMeridian();
-        // removeParallel();
         const { name, center, bbox } = e.geocode;
         handleSetPoint({
           name,

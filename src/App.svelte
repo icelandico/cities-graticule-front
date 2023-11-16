@@ -2,6 +2,7 @@
   import type { LatLng } from "leaflet";
   import type { Option, UserPoint } from './types'
   import Map from "./components/Map.svelte";
+  import { convertDMS } from "./utils/convertToDMS";
 
   let drawParallelChild: (val: number) => void;
   let drawMeridianChild: (val: number) => void;
@@ -42,7 +43,8 @@
   {#if chosenPoint}
     <div class="place__data">
       <h2>Place: {chosenPoint.name}</h2>
-      <h2>Coordinates: Lat: {chosenPoint?.coordinates.lat.toFixed(3)}, Lng: {chosenPoint?.coordinates.lng.toFixed(3)}</h2>
+      <h2>Coordinates (DD): Lat: {chosenPoint?.coordinates.lat.toFixed(3)}, Lng: {chosenPoint?.coordinates.lng.toFixed(3)}</h2>
+      <h2>Coordinates (DMS): {convertDMS(chosenPoint.coordinates.lat, chosenPoint.coordinates.lng)}</h2>
     </div>
   {/if}
   
