@@ -3,6 +3,7 @@
   import type { Option, UserPoint } from './types'
   import Map from "./components/Map.svelte";
   import { convertDMS } from "./utils/convertToDMS";
+  import 'leaflet/dist/leaflet.css';
 
   let drawParallelChild: (val: number) => void;
   let drawMeridianChild: (val: number) => void;
@@ -39,7 +40,7 @@
 </script>
 
 <div class="container">
-  <h1>Cities on Graticule</h1>
+  <h1>Points on Graticule</h1>
   {#if chosenPoint}
     <div class="place__data">
       <h2>Place: {chosenPoint.name}</h2>

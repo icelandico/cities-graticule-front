@@ -4,10 +4,12 @@
   import { onMount } from 'svelte';
   import type { UserPoint } from '../types';
   export let handleSetPoint: (point: UserPoint) => void;
+  import markerIconPng from "leaflet/dist/images/marker-icon.png";
 
   let map: L.Map;
   let parallelLine: L.Polyline;
   let meridianLine: L.Polyline;
+  L.Icon.Default.imagePath = markerIconPng;
 
   onMount(() => {
       map = L.map('map').setView([54.364917, 18.422872], 2);
