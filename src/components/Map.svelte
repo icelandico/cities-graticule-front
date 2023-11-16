@@ -30,6 +30,7 @@
           iconUrl: markerIconPng,
           shadowUrl: iconShadow,
           iconAnchor: [12, 28],
+          popupAnchor: [0, -30],
         });
         handleSetPoint({
           name,
