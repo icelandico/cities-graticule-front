@@ -5,11 +5,17 @@
   import type { UserPoint } from '../types';
   export let handleSetPoint: (point: UserPoint) => void;
   import markerIconPng from "leaflet/dist/images/marker-icon.png";
+  import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
   let map: L.Map;
   let parallelLine: L.Polyline;
   let meridianLine: L.Polyline;
-  L.Icon.Default.imagePath = markerIconPng;
+  let DefaultIcon = L.icon({
+      iconUrl: markerIconPng,
+      shadowUrl: iconShadow
+  });
+
+  L.Marker.prototype.options.icon = DefaultIcon;
 
   onMount(() => {
       map = L.map('map').setView([54.364917, 18.422872], 2);
